@@ -1,12 +1,16 @@
 import { Link, router } from '@inertiajs/react';
 import React from 'react';
 
+import { createLog } from '@helpers/log';
+
+const log = createLog('HelloWorldPage');
+
 export default function DemoPageOne({ place, facts }) {
   const loadFacts = () => {
     router.reload({ only: ['facts'] });
   };
 
-  console.log('[DemoPageOne]', { place, facts });
+  log.debug('[DemoPageOne]', { place, facts });
 
   return (
     <>

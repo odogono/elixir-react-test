@@ -15,6 +15,20 @@ config :elixir_react_test, ElixirReactTestWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "C0gNu6NXcUkrNoR/rHjcK+1wpySHhtUxD9pfTLB8oJA6p3yxZvkMerPbLVMpWzpa",
   watchers: [
+    # typescript: [
+    #   "assets/node_modules/typescript/bin/tsc",
+    #   # "npx tsc",
+    #   "--jsx",
+    #   "preserve",
+    #   "--watch",
+    #   "--noEmit",
+    #   "--pretty"
+    #   # cd: Path.expand("../assets", __DIR__)
+    # ],
+    node: [
+      "tsc-watch.js",
+      cd: Path.expand("../assets", __DIR__)
+    ],
     esbuild: {Esbuild, :install_and_run, [:elixir_react_test, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:elixir_react_test, ~w(--watch)]}
   ]
