@@ -35,7 +35,7 @@ export const CreateUser = () => {
         preserveUrl: true,
         onFinish: (...params) => {
           log.debug('[onFinish]', params);
-          router.reload({ only: ['users'] });
+          // router.reload({ only: ['users'] });
         },
         onSuccess: (...params) => {
           log.debug('[onSuccess]', params);

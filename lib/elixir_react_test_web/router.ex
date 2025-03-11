@@ -36,7 +36,8 @@ defmodule ElixirReactTestWeb.Router do
   scope "/api", ElixirReactTestWeb do
     pipe_through :inertia_api
 
-    resources "/users", UserController, only: [:index, :create]
+    resources "/users", UserController, only: [:index, :create, :delete]
+    put "/users/:id/toggle_status", UserController, :toggle_status
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

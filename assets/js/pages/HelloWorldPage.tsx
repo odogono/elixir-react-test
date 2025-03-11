@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { createLog } from '@helpers/log';
 import { CreateUser } from '@components/user/CreateUser';
 import { UsersList } from '@components/user/UsersList';
+import { Flash } from '@components/Flash';
 import { User } from '@types';
 const log = createLog('HelloWorldPage');
 
@@ -41,6 +42,7 @@ export default function HelloWorldPage({ place, facts, users }: Props) {
 
   return (
     <>
+      <Flash />
       <div className="px-4 sm:px-0">
         <div className="md:flex md:items-center md:justify-between">
           <div>

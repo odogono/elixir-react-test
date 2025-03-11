@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 import { createLog } from '@helpers/log';
 import { User } from '@types';
@@ -16,6 +17,36 @@ export const UsersList = ({ users = [] }: { users: User[] }) => {
       only: ['users'],
     });
   };
+
+  const handleToggleStatus = (userId: number) => {
+    router.put(
+      `/api/users/${userId}/toggle_status`,
+      {},
+      {
+        preserveState: true,
+        preserveScroll: true,
+        preserveUrl: true,
+        onError: (errors) => {
+          setError('Failed to update user status. Please try again.');
+        },
+      }
+    );
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      router.delete(`/api/users/${userId}`, {
+        preserveState: true,
+        preserveScroll: true,
+        preserveUrl: true,
+        onError: (errors) => {
+          setError('Failed to delete user. Please try again.');
+        },
+      });
+    }
+  };
+
+  log.debug('UsersList', { users });
 
   return (
     <div className="mt-8">
@@ -44,6 +75,9 @@ export const UsersList = ({ users = [] }: { users: User[] }) => {
               <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 Status
               </th>
+              <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -58,7 +92,9 @@ export const UsersList = ({ users = [] }: { users: User[] }) => {
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                   {user.email}
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm">
+                <td
+                  className="whitespace-nowrap px-3 py-4 text-sm cursor-pointer"
+                  onClick={() => handleToggleStatus(user.id)}>
                   <span
                     className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
                       user.status === 'active'
@@ -72,12 +108,19 @@ export const UsersList = ({ users = [] }: { users: User[] }) => {
                     {user.status}
                   </span>
                 </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm">
+                  <button
+                    onClick={() => handleDeleteUser(user.id)}
+                    className="text-red-600 hover:text-red-900 focus:outline-none">
+                    <TrashIcon className="h-5 w-5" />
+                  </button>
+                </td>
               </tr>
             ))}
             {users.length === 0 && !error && (
               <tr>
                 <td
-                  colSpan={4}
+                  colSpan={5}
                   className="px-3 py-4 text-sm text-gray-500 text-center">
                   No users found
                 </td>

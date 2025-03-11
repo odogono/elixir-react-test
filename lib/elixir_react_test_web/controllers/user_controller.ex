@@ -31,12 +31,48 @@ defmodule ElixirReactTestWeb.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully")
+        |> assign_prop(:users, Accounts.list_users())
         |> render_inertia("HelloWorldPage")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> assign_errors(changeset)
         |> render_inertia("HelloWorldPage")
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    case Accounts.delete_user(String.to_integer(id)) do
+      {:ok, _} ->
+        conn
+        |> put_flash(:info, "User deleted successfully")
+        |> assign_prop(:users, Accounts.list_users())
+        |> render_inertia("HelloWorldPage")
+
+      {:error, _} ->
+        conn |> put_flash(:error, "Failed to delete user") |> render_inertia("HelloWorldPage")
+    end
+  end
+
+  def toggle_status(conn, %{"id" => id}) do
+    case Accounts.get_user(String.to_integer(id)) do
+      nil ->
+        conn |> put_status(:not_found) |> json(%{error: "User not found"})
+
+      user ->
+        new_status = if user.status == :active, do: :inactive, else: :active
+
+        case Accounts.update_user(user, %{status: new_status}) do
+          {:ok, updated_user} ->
+            conn
+            # |> json(ElixirReactTestWeb.UserJSON.show(%{user: updated_user}))
+            |> assign_prop(:users, Accounts.list_users())
+            |> put_flash(:info, "User status updated to #{new_status}")
+            |> render_inertia("HelloWorldPage")
+
+          {:error, _} ->
+            conn |> put_status(:unprocessable_entity) |> render_inertia("HelloWorldPage")
+        end
     end
   end
 
