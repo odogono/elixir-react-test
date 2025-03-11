@@ -1,11 +1,22 @@
 import { Link, router } from '@inertiajs/react';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { createLog } from '@helpers/log';
+import { CreateUser } from '@components/user/CreateUser';
 
 const log = createLog('HelloWorldPage');
 
-export default function DemoPageOne({ place, facts }) {
+interface Fact {
+  key: string;
+  value: string;
+}
+
+interface Props {
+  place: string;
+  facts: Fact[];
+}
+
+export default function DemoPageOne({ place, facts }: Props) {
   const loadFacts = () => {
     router.reload({ only: ['facts'] });
   };
@@ -35,6 +46,7 @@ export default function DemoPageOne({ place, facts }) {
           </div>
         </div>
       </div>
+
       {facts && (
         <div className="mt-6 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
@@ -53,6 +65,8 @@ export default function DemoPageOne({ place, facts }) {
           </dl>
         </div>
       )}
+
+      <CreateUser />
     </>
   );
 }

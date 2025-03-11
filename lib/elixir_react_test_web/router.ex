@@ -15,6 +15,16 @@ defmodule ElixirReactTestWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # New pipeline for Inertia API requests
+  pipeline :inertia_api do
+    plug :accepts, ["json", "html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug Inertia.Plug
+  end
+
   scope "/", ElixirReactTestWeb do
     pipe_through :browser
 
@@ -22,10 +32,12 @@ defmodule ElixirReactTestWeb.Router do
     get "/", HelloWorldController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ElixirReactTestWeb do
-  #   pipe_through :api
-  # end
+  # Changed to use inertia_api pipeline
+  scope "/api", ElixirReactTestWeb do
+    pipe_through :inertia_api
+
+    resources "/users", UserController, only: [:index, :create]
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:elixir_react_test, :dev_routes) do
