@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import { createLog } from '@helpers/log';
 import { CreateUser } from '@components/user/CreateUser';
+import { UsersList } from '@components/user/UsersList';
 
 const log = createLog('HelloWorldPage');
 
@@ -67,6 +68,7 @@ export default function DemoPageOne({ place, facts }: Props) {
       )}
 
       <CreateUser />
+      <UsersList />
     </>
   );
 }

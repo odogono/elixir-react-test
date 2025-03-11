@@ -6,7 +6,7 @@ defmodule ElixirReactTestWeb.UserController do
 
   def index(conn, _params) do
     users = Accounts.list_users()
-    render(conn, :index, users: users)
+    json(conn, ElixirReactTestWeb.UserJSON.index(%{users: users}))
   end
 
   def create(conn, params) do
