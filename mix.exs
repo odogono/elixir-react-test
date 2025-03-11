@@ -40,6 +40,8 @@ defmodule ElixirReactTest.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3.1", runtime: Mix.env() == :dev},
+      {:ecto_sql, "~> 3.10"},
+      {:ecto_sqlite3, "~> 0.12.0"},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.1.1",

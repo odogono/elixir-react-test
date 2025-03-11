@@ -8,6 +8,7 @@ defmodule ElixirReactTest.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      ElixirReactTest.Repo,
       ElixirReactTestWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:elixir_react_test, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ElixirReactTest.PubSub},

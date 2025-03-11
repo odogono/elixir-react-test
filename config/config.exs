@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+# Configure ecto repositories
+config :elixir_react_test, ecto_repos: [ElixirReactTest.Repo]
+
 config :elixir_react_test,
   generators: [timestamp_type: :utc_datetime]
 
