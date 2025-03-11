@@ -1,10 +1,10 @@
 import { Link, router } from '@inertiajs/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { createLog } from '@helpers/log';
 import { CreateUser } from '@components/user/CreateUser';
 import { UsersList } from '@components/user/UsersList';
-
+import { User } from '@types';
 const log = createLog('HelloWorldPage');
 
 interface Fact {
@@ -15,14 +15,29 @@ interface Fact {
 interface Props {
   place: string;
   facts: Fact[];
+  users: User[];
 }
 
-export default function DemoPageOne({ place, facts }: Props) {
+export default function HelloWorldPage({ place, facts, users }: Props) {
   const loadFacts = () => {
     router.reload({ only: ['facts'] });
   };
 
-  log.debug('[DemoPageOne]', { place, facts });
+  useEffect(() => {
+    log.debug('router', router);
+
+    // Only fetch users on initial mount
+    // router.visit('HelloWorldPage', {
+    //   preserveState: true,
+    //   preserveScroll: true,
+    //   only: ['users'],
+    // });
+    setTimeout(() => {
+      router.reload({ only: ['users'] });
+    }, 1);
+  }, []); // Empty dependency array means this runs once on mount
+
+  log.debug({ place, facts, users });
 
   return (
     <>
@@ -68,7 +83,7 @@ export default function DemoPageOne({ place, facts }: Props) {
       )}
 
       <CreateUser />
-      <UsersList />
+      <UsersList users={users} />
     </>
   );
 }

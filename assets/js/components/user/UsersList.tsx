@@ -1,44 +1,32 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { createLog } from '@helpers/log';
+import { User } from '@types';
+import { router } from '@inertiajs/react';
 
 const log = createLog('UsersList');
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  status: 'inactive' | 'pending' | 'active' | 'logically_deleted';
-}
-
-interface UsersResponse {
-  data: User[];
-}
-
-export const UsersList = () => {
-  const [users, setUsers] = useState<User[]>([]);
+export const UsersList = ({ users = [] }: { users: User[] }) => {
   const [error, setError] = useState<string>('');
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get<UsersResponse>('/api/users');
-        log.debug('[fetchUsers] success', response);
-        setUsers(response.data.data);
-        setError('');
-      } catch (err) {
-        log.error('[fetchUsers] error', err);
-        setError('Failed to fetch users');
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  const refreshUsers = () => {
+    router.visit('/', {
+      preserveState: true,
+      preserveScroll: true,
+      only: ['users'],
+    });
+  };
 
   return (
     <div className="mt-8">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Users List</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold text-gray-900">Users List</h2>
+        <button
+          onClick={refreshUsers}
+          className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          Refresh
+        </button>
+      </div>
       {error && <div className="mb-4 text-sm text-red-600">{error}</div>}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-300">
