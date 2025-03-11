@@ -1,0 +1,21 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/app.tsx",
+  "scripts": {
+    "outdated": "npx npm-check-updates --interactive --format group",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": "true",
+  "dependencies": {
+    "@inertiajs/react": "^2.0.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
