@@ -28,8 +28,7 @@ defmodule ElixirReactTestWeb.Router do
   scope "/", ElixirReactTestWeb do
     pipe_through :browser
 
-    # get "/", PageController, :home
-    get "/", HelloWorldController, :index
+    get "/", HomeController, :index
   end
 
   # Changed to use inertia_api pipeline

@@ -1,4 +1,4 @@
-defmodule ElixirReactTestWeb.HelloWorldController do
+defmodule ElixirReactTestWeb.HomeController do
   use ElixirReactTestWeb, :controller
 
   alias ElixirReactTest.Accounts
@@ -22,6 +22,6 @@ defmodule ElixirReactTestWeb.HelloWorldController do
         Accounts.list_users()
       end)
     )
-    |> render_inertia("HelloWorldPage")
+    |> render_inertia("index")
   end
 end

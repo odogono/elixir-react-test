@@ -6,7 +6,7 @@ import { CreateUser } from '@components/user/CreateUser';
 import { UsersList } from '@components/user/UsersList';
 import { Flash } from '@components/Flash';
 import { User } from '@types';
-const log = createLog('HelloWorldPage');
+const log = createLog('Home');
 
 interface Fact {
   key: string;
@@ -19,7 +19,7 @@ interface Props {
   users: User[];
 }
 
-export default function HelloWorldPage({ place, facts, users }: Props) {
+export default function Home({ place, facts, users }: Props) {
   const loadFacts = () => {
     router.reload({ only: ['facts'] });
   };
@@ -28,7 +28,7 @@ export default function HelloWorldPage({ place, facts, users }: Props) {
     log.debug('router', router);
 
     // Only fetch users on initial mount
-    // router.visit('HelloWorldPage', {
+    // router.visit('Home', {
     //   preserveState: true,
     //   preserveScroll: true,
     //   only: ['users'],

@@ -12,7 +12,7 @@ defmodule ElixirReactTestWeb.UserController do
         json(conn, ElixirReactTestWeb.UserJSON.index(%{users: users}))
 
       _ ->
-        render_inertia(conn, "HelloWorldPage", %{users: users})
+        render_inertia(conn, "index", %{users: users})
     end
   end
 
@@ -32,12 +32,12 @@ defmodule ElixirReactTestWeb.UserController do
         conn
         |> put_flash(:info, "User created successfully")
         |> assign_prop(:users, Accounts.list_users())
-        |> render_inertia("HelloWorldPage")
+        |> render_inertia("home")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> assign_errors(changeset)
-        |> render_inertia("HelloWorldPage")
+        |> render_inertia("home")
     end
   end
 
@@ -47,10 +47,10 @@ defmodule ElixirReactTestWeb.UserController do
         conn
         |> put_flash(:info, "User deleted successfully")
         |> assign_prop(:users, Accounts.list_users())
-        |> render_inertia("HelloWorldPage")
+        |> render_inertia("home")
 
       {:error, _} ->
-        conn |> put_flash(:error, "Failed to delete user") |> render_inertia("HelloWorldPage")
+        conn |> put_flash(:error, "Failed to delete user") |> render_inertia("home")
     end
   end
 
@@ -68,10 +68,10 @@ defmodule ElixirReactTestWeb.UserController do
             # |> json(ElixirReactTestWeb.UserJSON.show(%{user: updated_user}))
             |> assign_prop(:users, Accounts.list_users())
             |> put_flash(:info, "User status updated to #{new_status}")
-            |> render_inertia("HelloWorldPage")
+            |> render_inertia("home")
 
           {:error, _} ->
-            conn |> put_status(:unprocessable_entity) |> render_inertia("HelloWorldPage")
+            conn |> put_status(:unprocessable_entity) |> render_inertia("home")
         end
     end
   end
